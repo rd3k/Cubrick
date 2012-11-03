@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cubrick", "Cubrick\Cubrick\Cubrick.csproj", "{B4984416-2CF6-449D-96E3-69AF5DC4A455}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "CubrickContent", "Cubrick\CubrickContent\CubrickContent.contentproj", "{8B491C21-298C-4206-A7A9-D2D84BCE47DA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B4984416-2CF6-449D-96E3-69AF5DC4A455}.Debug|x86.ActiveCfg = Debug|x86
+		{B4984416-2CF6-449D-96E3-69AF5DC4A455}.Debug|x86.Build.0 = Debug|x86
+		{B4984416-2CF6-449D-96E3-69AF5DC4A455}.Release|x86.ActiveCfg = Release|x86
+		{B4984416-2CF6-449D-96E3-69AF5DC4A455}.Release|x86.Build.0 = Release|x86
+		{8B491C21-298C-4206-A7A9-D2D84BCE47DA}.Debug|x86.ActiveCfg = Debug|x86
+		{8B491C21-298C-4206-A7A9-D2D84BCE47DA}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
