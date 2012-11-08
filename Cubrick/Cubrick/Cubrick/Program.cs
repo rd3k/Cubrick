@@ -10,7 +10,7 @@ namespace Cubrick
         /// </summary>
         static void Main(string[] args)
         {
-            using (Game1 game = new Game1())
+            using (CubrickGame game = new CubrickGame())
             {
                 game.Run();
             }
