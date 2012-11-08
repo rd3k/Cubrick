@@ -19,18 +19,12 @@ namespace Cubrick
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Texture2D cubeTexture;
-        BasicEffect cubeEffect;
-
-        Cube cube = new Cube(new Vector3(1, 1, 1), Vector3.Zero);
-        Vector3 cameraPosition = new Vector3(0, 3, 4);
-        Vector3 modelPosition = Vector3.Zero;
-        float rotation = 0.0f;
-        float aspectRatio = 0.0f;
+        Cube cube;
 
         public CubrickGame()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferMultiSampling = true;
             Content.RootDirectory = "Content";
         }
 
@@ -42,7 +36,7 @@ namespace Cubrick
         /// </summary>
         protected override void Initialize()
         {
-            TargetElapsedTime = TimeSpan.FromTicks(333333);
+            TargetElapsedTime = TimeSpan.FromTicks(666666);
             base.Initialize();
         }
 
@@ -52,18 +46,14 @@ namespace Cubrick
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            cubeTexture = Content.Load<Texture2D>("testTexture");
-            aspectRatio = GraphicsDevice.Viewport.AspectRatio;
-            cubeEffect = new BasicEffect(GraphicsDevice);
+            cube = new Cube(new Vector3(1, 1, 1), Vector3.Zero, GraphicsDevice);
+            //aspectRatio = GraphicsDevice.Viewport.AspectRatio;
         }
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload all content.
         /// </summary>
-        protected override void UnloadContent()
-        {
-            // TODO: Unload any non ContentManager content here
-        }
+        protected override void UnloadContent() {}
 
         /// <summary>
         /// Allows the game to run logic such as updating the world, checking for collisions, gathering input, and playing audio.
@@ -72,10 +62,11 @@ namespace Cubrick
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) this.Exit();
 
-            rotation += 0.5f;
+            cube.rotationY += 2.5f;
+            cube.rotationZ += 1.5f;
+            cube.rotationY += 0.5f;
             base.Update(gameTime);
         }
 
@@ -85,35 +76,11 @@ namespace Cubrick
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
-            // Set the World matrix which defines the position of the cube
-            cubeEffect.World = Matrix.CreateRotationY(MathHelper.ToRadians(rotation)) * Matrix.CreateTranslation(modelPosition);
+            cube.RenderToDevice(GraphicsDevice);
 
-            // Set the View matrix which defines the camera and what it's looking at
-            cubeEffect.View = Matrix.CreateLookAt(cameraPosition, modelPosition, Vector3.Up);
-
-            // Set the Projection matrix which defines how we see the scene (Field of view)
-            cubeEffect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio, 1.0f, 1000.0f);
-
-            // Enable textures on the Cube Effect. this is necessary to texture the model
-            cubeEffect.TextureEnabled = true;
-            var t = new Texture2D(GraphicsDevice, 1, 1);
-            t.SetData(new[] { Color.Red });
-
-            cubeEffect.Texture = t;//cubeTexture;
-
-            // Enable some pretty lights
-            cubeEffect.EnableDefaultLighting();
-
-            // apply the effect and render the cube
-            foreach (EffectPass pass in cubeEffect.CurrentTechnique.Passes)
-            {
-                pass.Apply();
-                cube.RenderToDevice(GraphicsDevice);
-            }
-
-            GraphicsDevice.DepthStencilState = new DepthStencilState() { DepthBufferEnable = true };
+            //GraphicsDevice.DepthStencilState = new DepthStencilState() { DepthBufferEnable = true };
 
             base.Draw(gameTime);
 

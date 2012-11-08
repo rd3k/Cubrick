@@ -13,17 +13,22 @@ namespace Cubrick
 
         public Vector3 Size { get; set; }
         public Vector3 Position { get; set; }
-        private VertexPositionNormalTexture[] vertices;
-        public Texture2D[] FaceTextures = new Texture2D[3];
+        public float rotationX { get; set; }
+        public float rotationY { get; set; }
+        public float rotationZ { get; set; }
 
-        public Cube (Vector3 size, Vector3 position)
+        private VertexPositionNormalTexture[] vertices;
+        public Texture2D[] faceTextures = new Texture2D[6];
+        BasicEffect cubeEffect;
+
+        public Cube(Vector3 size, Vector3 position, GraphicsDevice device)
         {
             Size = size;
             Position = position;
-            create();
+            create(device);
         }
 
-        private void create ()
+        private void create(GraphicsDevice device)
         {
             vertices = new VertexPositionNormalTexture[36];
             Vector3 topLeftFront = Position + new Vector3(-1.0f, 1.0f, -1.0f) * Size;
@@ -83,14 +88,71 @@ namespace Cubrick
             vertices[33] = new VertexPositionNormalTexture(topRightBack, normalRight, textureTopRight);
             vertices[34] = new VertexPositionNormalTexture(topRightFront, normalRight, textureTopLeft);
             vertices[35] = new VertexPositionNormalTexture(bottomRightBack, normalRight, textureBottomRight);
+
+            faceTextures[0] = new Texture2D(device, 1, 1);
+            faceTextures[0].SetData(new[] { Color.Red });
+
+            faceTextures[1] = new Texture2D(device, 1, 1);
+            faceTextures[1].SetData(new[] { Color.Blue });
+
+            faceTextures[2] = new Texture2D(device, 1, 1);
+            faceTextures[2].SetData(new[] { Color.Yellow });
+
+            faceTextures[3] = new Texture2D(device, 1, 1);
+            faceTextures[3].SetData(new[] { Color.Pink });
+
+            faceTextures[4] = new Texture2D(device, 1, 1);
+            faceTextures[4].SetData(new[] { Color.RoyalBlue });
+
+            faceTextures[5] = new Texture2D(device, 1, 1);
+            faceTextures[5].SetData(new[] { Color.Orange });
+
+            cubeEffect = new BasicEffect(device);
+
         }
 
         public void RenderToDevice(GraphicsDevice device)
         {
+
+            cubeEffect.World = Matrix.CreateRotationX(MathHelper.ToRadians(rotationX)) *
+                               Matrix.CreateRotationY(MathHelper.ToRadians(rotationY)) *
+                               Matrix.CreateRotationZ(MathHelper.ToRadians(rotationZ)) *
+                               Matrix.CreateTranslation(Vector3.Zero);
+
+            cubeEffect.View = Matrix.CreateLookAt(new Vector3(0, 3, 4), Vector3.Zero, Vector3.Up);
+
+            cubeEffect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, device.Viewport.AspectRatio, 1.0f, 1000.0f);
+
+            cubeEffect.TextureEnabled = true;
+
             VertexBuffer buffer = new VertexBuffer(device, VertexPositionNormalTexture.VertexDeclaration, 36, BufferUsage.WriteOnly);
             buffer.SetData(vertices);
             device.SetVertexBuffer(buffer);
-            device.DrawPrimitives(PrimitiveType.TriangleList, 0, 12);
+
+            cubeEffect.Texture = faceTextures[0];
+            cubeEffect.CurrentTechnique.Passes[0].Apply();
+            device.DrawPrimitives(PrimitiveType.TriangleList, 0, 6);
+
+            cubeEffect.Texture = faceTextures[1];
+            cubeEffect.CurrentTechnique.Passes[0].Apply();
+            device.DrawPrimitives(PrimitiveType.TriangleList, 6, 6);
+
+            cubeEffect.Texture = faceTextures[2];
+            cubeEffect.CurrentTechnique.Passes[0].Apply();
+            device.DrawPrimitives(PrimitiveType.TriangleList, 12, 6);
+
+            cubeEffect.Texture = faceTextures[3];
+            cubeEffect.CurrentTechnique.Passes[0].Apply();
+            device.DrawPrimitives(PrimitiveType.TriangleList, 18, 6);
+
+            cubeEffect.Texture = faceTextures[4];
+            cubeEffect.CurrentTechnique.Passes[0].Apply();
+            device.DrawPrimitives(PrimitiveType.TriangleList, 24, 6);
+
+            cubeEffect.Texture = faceTextures[5];
+            cubeEffect.CurrentTechnique.Passes[0].Apply();
+            device.DrawPrimitives(PrimitiveType.TriangleList, 30, 6);
+
         } 
 
     }
