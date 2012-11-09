@@ -117,7 +117,7 @@ namespace Cubrick
             cubeEffect.World = Matrix.CreateRotationX(MathHelper.ToRadians(rotationX)) *
                                Matrix.CreateRotationY(MathHelper.ToRadians(rotationY)) *
                                Matrix.CreateRotationZ(MathHelper.ToRadians(rotationZ)) *
-                               Matrix.CreateTranslation(Vector3.Zero);
+                               Matrix.CreateTranslation(Position);
 
             cubeEffect.View = Matrix.CreateLookAt(new Vector3(0, 3, 4), Vector3.Zero, Vector3.Up);
 

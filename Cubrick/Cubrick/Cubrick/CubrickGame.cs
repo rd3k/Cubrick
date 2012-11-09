@@ -36,7 +36,7 @@ namespace Cubrick
         /// </summary>
         protected override void Initialize()
         {
-            TargetElapsedTime = TimeSpan.FromTicks(666666);
+            // TargetElapsedTime = TimeSpan.FromTicks(666666);
             base.Initialize();
         }
 
@@ -55,6 +55,8 @@ namespace Cubrick
         /// </summary>
         protected override void UnloadContent() {}
 
+		private double angle = 0.0;
+
         /// <summary>
         /// Allows the game to run logic such as updating the world, checking for collisions, gathering input, and playing audio.
         /// </summary>
@@ -64,9 +66,11 @@ namespace Cubrick
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) this.Exit();
 
-            cube.rotationY += 2.5f;
-            cube.rotationZ += 1.5f;
-            cube.rotationY += 0.5f;
+			angle = (angle + 0.05) % MathHelper.TwoPi;
+			cube.Position = new Vector3((float)(Math.Sin(angle) * 1.5), (float)(Math.Cos(angle) * 0.5), 0);
+            cube.rotationY += 1.5f;
+            // cube.rotationZ += 2.5f;
+            // cube.rotationY += 0.5f;
             base.Update(gameTime);
         }
 
