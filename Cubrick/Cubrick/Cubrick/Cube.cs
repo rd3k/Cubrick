@@ -111,7 +111,7 @@ namespace Cubrick
 
         }
 
-        public void RenderToDevice(GraphicsDevice device)
+        public void RenderToDevice(GraphicsDevice device, Matrix camera)
         {
 
             cubeEffect.World = Matrix.CreateRotationX(MathHelper.ToRadians(rotationX)) *
@@ -119,7 +119,7 @@ namespace Cubrick
                                Matrix.CreateRotationZ(MathHelper.ToRadians(rotationZ)) *
                                Matrix.CreateTranslation(Position);
 
-            cubeEffect.View = Matrix.CreateLookAt(new Vector3(0, 3, 4), Vector3.Zero, Vector3.Up);
+			cubeEffect.View = camera;
 
             cubeEffect.Projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, device.Viewport.AspectRatio, 1.0f, 1000.0f);
 

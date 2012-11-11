@@ -19,7 +19,8 @@ namespace Cubrick
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Cube cube;
+        Cube[] cubes = new Cube[3];
+		Matrix camera;
 
         public CubrickGame()
         {
@@ -46,7 +47,8 @@ namespace Cubrick
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            cube = new Cube(new Vector3(1, 1, 1), Vector3.Zero, GraphicsDevice);
+			for (int i = 0; i < cubes.Length; i++)
+	            cubes[i] = new Cube(new Vector3(0.2f, 0.2f, 0.2f), new Vector3(i - 1, 0, 0), GraphicsDevice);
             //aspectRatio = GraphicsDevice.Viewport.AspectRatio;
         }
 
@@ -56,6 +58,7 @@ namespace Cubrick
         protected override void UnloadContent() {}
 
 		private double angle = 0.0;
+		private double cameraAngle = 0.0;
 
         /// <summary>
         /// Allows the game to run logic such as updating the world, checking for collisions, gathering input, and playing audio.
@@ -67,10 +70,16 @@ namespace Cubrick
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) this.Exit();
 
 			angle = (angle + 0.05) % MathHelper.TwoPi;
-			cube.Position = new Vector3((float)(Math.Sin(angle) * 1.5), (float)(Math.Cos(angle) * 0.5), 0);
-            cube.rotationY += 1.5f;
-            // cube.rotationZ += 2.5f;
-            // cube.rotationY += 0.5f;
+			for (int i = 0; i < cubes.Length; i++) {
+				cubes[i].Position = new Vector3((float)(Math.Sin(angle) * 1.4 * (i * 0.9f)), (float)(Math.Cos(angle) * 0.5 * (i * 1.2f)), 0);
+				cubes[i].rotationY += 1.5f + (i * 0.7f);
+				// cube.rotationZ += 2.5f;
+				// cube.rotationY += 0.5f;
+			}
+
+			cameraAngle = (cameraAngle + 0.01) % MathHelper.TwoPi;
+			camera = Matrix.CreateLookAt(new Vector3((float)(Math.Cos(cameraAngle) * 8), 2, (float)(Math.Sin(cameraAngle) * 8)), Vector3.Zero, Vector3.Up);
+
             base.Update(gameTime);
         }
 
@@ -82,7 +91,8 @@ namespace Cubrick
         {
             GraphicsDevice.Clear(Color.Black);
 
-            cube.RenderToDevice(GraphicsDevice);
+			foreach (Cube cube in cubes)
+	            cube.RenderToDevice(GraphicsDevice, camera);
 
             //GraphicsDevice.DepthStencilState = new DepthStencilState() { DepthBufferEnable = true };
 
