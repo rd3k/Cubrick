@@ -79,8 +79,8 @@ namespace Cubrick
                 {
                     for (int k = 0; k < rubicksCube.Size; k++)
                     {
-                        rubicksCube.GetCube(i, j, k).Position = new Vector3((float)(Math.Sin(angle) * 1.4 * (i * 0.9f)), (float)(Math.Cos(angle) * 0.5 * (i * 1.2f)), 0);
-                        rubicksCube.GetCube(i, j, k).rotationY += 1.5f + (i * 0.7f);
+                        //rubicksCube.GetCube(i, j, k).Position = new Vector3((float)(Math.Sin(angle) * 1.4 * (i * 0.9f)), (float)(Math.Cos(angle) * 0.5 * (i * 1.2f)), 0);
+                        //rubicksCube.GetCube(i, j, k).rotationY += 1.5f + (i * 0.7f);
                     }
                 }
             }
@@ -94,9 +94,9 @@ namespace Cubrick
 
 			cameraAngle = (cameraAngle + 0.01) % MathHelper.TwoPi;
             camera.Position = new Vector3((float)(Math.Cos(cameraAngle) * 8), 2, (float)(Math.Sin(cameraAngle) * 8));
-            camera.Target = Vector3.Zero;
-            camera.Zoom =  (float)(Math.Sin(cameraAngle) * .8);
-            //camera.Pitch = (float)(Math.Sin(cameraAngle) * .8);
+			camera.Target = rubicksCube.GetCube(1, 1, 1).Position;
+            //camera.Zoom =  (float)(Math.Sin(cameraAngle) * .8);
+            camera.Pitch = (float)(Math.Sin(cameraAngle) * .08);
             camera.Update();
 
             base.Update(gameTime);

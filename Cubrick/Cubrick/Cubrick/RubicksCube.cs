@@ -18,6 +18,7 @@ namespace Cubrick
 
         public RubicksCube(int size, GraphicsDevice device)
         {
+			this.size = size;
             cubeCount = size * size * size;
             cubes = new Cube[size, size, size];
             for(int i = 0; i < size; i++)
@@ -28,7 +29,7 @@ namespace Cubrick
                     {
                         cubes[i, j, k] = new Cube(
                             size: new Vector3(0.2f, 0.2f, 0.2f),
-                            position: new Vector3(i, j, k),
+							position: new Vector3(0.201f * i, 0.201f * j, 0.201f * k),
                             device: device
                         );
                     }

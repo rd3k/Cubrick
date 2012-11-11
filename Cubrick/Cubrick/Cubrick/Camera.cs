@@ -72,7 +72,7 @@ namespace Cubrick
 
         public void Update()
         {
-            matrix = Matrix.CreateLookAt(position + ((target - position) * zoom), target, Vector3.Up) *
+			matrix = Matrix.CreateLookAt(position + ((target - position) * zoom), target, Vector3.Up) *
                      Matrix.CreateRotationX(MathHelper.ToRadians(rotation.X)) *
                      Matrix.CreateRotationY(MathHelper.ToRadians(rotation.Y)) *
                      Matrix.CreateRotationZ(MathHelper.ToRadians(rotation.Z)) *
