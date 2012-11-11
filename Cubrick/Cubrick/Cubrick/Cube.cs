@@ -111,7 +111,7 @@ namespace Cubrick
 
         }
 
-        public void RenderToDevice(GraphicsDevice device, Matrix camera)
+        public void RenderToDevice(GraphicsDevice device, /*Matrix camera*/ Camera camera)
         {
 
             cubeEffect.World = Matrix.CreateRotationX(MathHelper.ToRadians(rotationX)) *

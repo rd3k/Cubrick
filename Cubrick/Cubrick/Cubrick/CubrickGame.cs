@@ -20,7 +20,8 @@ namespace Cubrick
         SpriteBatch spriteBatch;
 
         Cube[] cubes = new Cube[3];
-		Matrix camera;
+		//Matrix camera;
+        Camera camera = new Camera();
 
         public CubrickGame()
         {
@@ -78,7 +79,11 @@ namespace Cubrick
 			}
 
 			cameraAngle = (cameraAngle + 0.01) % MathHelper.TwoPi;
-			camera = Matrix.CreateLookAt(new Vector3((float)(Math.Cos(cameraAngle) * 8), 2, (float)(Math.Sin(cameraAngle) * 8)), Vector3.Zero, Vector3.Up);
+            camera.Position = new Vector3((float)(Math.Cos(cameraAngle) * 8), 2, (float)(Math.Sin(cameraAngle) * 8));
+            camera.Target = Vector3.Zero;
+            camera.Zoom =  (float)(Math.Sin(cameraAngle) * .8);
+            //camera.Pitch = (float)(Math.Sin(cameraAngle) * .8);
+            camera.Update();
 
             base.Update(gameTime);
         }
