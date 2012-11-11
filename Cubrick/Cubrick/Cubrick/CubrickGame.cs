@@ -19,8 +19,8 @@ namespace Cubrick
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Cube[] cubes = new Cube[3];
-		//Matrix camera;
+        RubicksCube rubicksCube;
+        //Cube[] cubes = new Cube[3];
         Camera camera = new Camera();
 
         public CubrickGame()
@@ -39,7 +39,7 @@ namespace Cubrick
         protected override void Initialize()
         {
             // TargetElapsedTime = TimeSpan.FromTicks(666666);
-            base.Initialize();
+            base.Initialize(); 
         }
 
         /// <summary>
@@ -48,9 +48,10 @@ namespace Cubrick
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-			for (int i = 0; i < cubes.Length; i++)
-	            cubes[i] = new Cube(new Vector3(0.2f, 0.2f, 0.2f), new Vector3(i - 1, 0, 0), GraphicsDevice);
+			//for (int i = 0; i < cubes.Length; i++)
+	        //    cubes[i] = new Cube(new Vector3(0.2f, 0.2f, 0.2f), new Vector3(i - 1, 0, 0), GraphicsDevice);
             //aspectRatio = GraphicsDevice.Viewport.AspectRatio;
+            rubicksCube = new RubicksCube(3, GraphicsDevice);
         }
 
         /// <summary>
@@ -71,12 +72,25 @@ namespace Cubrick
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) this.Exit();
 
 			angle = (angle + 0.05) % MathHelper.TwoPi;
-			for (int i = 0; i < cubes.Length; i++) {
-				cubes[i].Position = new Vector3((float)(Math.Sin(angle) * 1.4 * (i * 0.9f)), (float)(Math.Cos(angle) * 0.5 * (i * 1.2f)), 0);
-				cubes[i].rotationY += 1.5f + (i * 0.7f);
+
+            for (int i = 0; i < rubicksCube.Size; i++)
+            {
+                for (int j = 0; j < rubicksCube.Size; j++)
+                {
+                    for (int k = 0; k < rubicksCube.Size; k++)
+                    {
+                        rubicksCube.GetCube(i, j, k).Position = new Vector3((float)(Math.Sin(angle) * 1.4 * (i * 0.9f)), (float)(Math.Cos(angle) * 0.5 * (i * 1.2f)), 0);
+                        rubicksCube.GetCube(i, j, k).rotationY += 1.5f + (i * 0.7f);
+                    }
+                }
+            }
+
+			//for (int i = 0; i < cubes.Length; i++) {
+			//	cubes[i].Position = new Vector3((float)(Math.Sin(angle) * 1.4 * (i * 0.9f)), (float)(Math.Cos(angle) * 0.5 * (i * 1.2f)), 0);
+			//	cubes[i].rotationY += 1.5f + (i * 0.7f);
 				// cube.rotationZ += 2.5f;
 				// cube.rotationY += 0.5f;
-			}
+			//}
 
 			cameraAngle = (cameraAngle + 0.01) % MathHelper.TwoPi;
             camera.Position = new Vector3((float)(Math.Cos(cameraAngle) * 8), 2, (float)(Math.Sin(cameraAngle) * 8));
@@ -96,8 +110,10 @@ namespace Cubrick
         {
             GraphicsDevice.Clear(Color.Black);
 
-			foreach (Cube cube in cubes)
-	            cube.RenderToDevice(GraphicsDevice, camera);
+			//foreach (Cube cube in cubes)
+	        //    cube.RenderToDevice(GraphicsDevice, camera);
+
+            rubicksCube.RenderToDevice(GraphicsDevice, camera);
 
             //GraphicsDevice.DepthStencilState = new DepthStencilState() { DepthBufferEnable = true };
 

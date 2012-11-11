@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Design;
 
 namespace Cubrick
 {
-    class Cube
+    public class Cube
     {
 
         public Vector3 Size { get; set; }
