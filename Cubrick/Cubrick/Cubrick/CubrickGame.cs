@@ -16,11 +16,10 @@ namespace Cubrick
     /// </summary>
     public class CubrickGame : Microsoft.Xna.Framework.Game
     {
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
         RubicksCube rubicksCube;
-        //Cube[] cubes = new Cube[3];
         Camera camera = new Camera();
 
         public CubrickGame()
@@ -28,6 +27,7 @@ namespace Cubrick
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferMultiSampling = true;
             Content.RootDirectory = "Content";
+            this.Window.Title = "LOL cubes";
         }
 
         /// <summary>
@@ -38,7 +38,6 @@ namespace Cubrick
         /// </summary>
         protected override void Initialize()
         {
-            // TargetElapsedTime = TimeSpan.FromTicks(666666);
             base.Initialize(); 
         }
 
@@ -48,9 +47,6 @@ namespace Cubrick
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-			//for (int i = 0; i < cubes.Length; i++)
-	        //    cubes[i] = new Cube(new Vector3(0.2f, 0.2f, 0.2f), new Vector3(i - 1, 0, 0), GraphicsDevice);
-            //aspectRatio = GraphicsDevice.Viewport.AspectRatio;
             rubicksCube = new RubicksCube(3, GraphicsDevice);
         }
 
@@ -59,7 +55,6 @@ namespace Cubrick
         /// </summary>
         protected override void UnloadContent() {}
 
-		private double angle = 0.0;
 		private double cameraAngle = 0.0;
 
         /// <summary>
@@ -71,31 +66,9 @@ namespace Cubrick
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) this.Exit();
 
-			angle = (angle + 0.05) % MathHelper.TwoPi;
-
-            for (int i = 0; i < rubicksCube.Size; i++)
-            {
-                for (int j = 0; j < rubicksCube.Size; j++)
-                {
-                    for (int k = 0; k < rubicksCube.Size; k++)
-                    {
-                        //rubicksCube.GetCube(i, j, k).Position = new Vector3((float)(Math.Sin(angle) * 1.4 * (i * 0.9f)), (float)(Math.Cos(angle) * 0.5 * (i * 1.2f)), 0);
-                        //rubicksCube.GetCube(i, j, k).rotationY += 1.5f + (i * 0.7f);
-                    }
-                }
-            }
-
-			//for (int i = 0; i < cubes.Length; i++) {
-			//	cubes[i].Position = new Vector3((float)(Math.Sin(angle) * 1.4 * (i * 0.9f)), (float)(Math.Cos(angle) * 0.5 * (i * 1.2f)), 0);
-			//	cubes[i].rotationY += 1.5f + (i * 0.7f);
-				// cube.rotationZ += 2.5f;
-				// cube.rotationY += 0.5f;
-			//}
-
 			cameraAngle = (cameraAngle + 0.01) % MathHelper.TwoPi;
             camera.Position = new Vector3((float)(Math.Cos(cameraAngle) * 8), 2, (float)(Math.Sin(cameraAngle) * 8));
 			camera.Target = rubicksCube.GetCube(1, 1, 1).Position;
-            //camera.Zoom =  (float)(Math.Sin(cameraAngle) * .8);
             camera.Pitch = (float)(Math.Sin(cameraAngle) * .08);
             camera.Update();
 
@@ -109,14 +82,8 @@ namespace Cubrick
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-
-			//foreach (Cube cube in cubes)
-	        //    cube.RenderToDevice(GraphicsDevice, camera);
-
-            rubicksCube.RenderToDevice(GraphicsDevice, camera);
-
+            rubicksCube.RenderToDevice(camera);
             //GraphicsDevice.DepthStencilState = new DepthStencilState() { DepthBufferEnable = true };
-
             base.Draw(gameTime);
 
         }
