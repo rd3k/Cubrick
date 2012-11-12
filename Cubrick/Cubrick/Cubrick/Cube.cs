@@ -21,14 +21,19 @@ namespace Cubrick
         public Texture2D[] faceTextures = new Texture2D[6];
         BasicEffect cubeEffect;
 
+		private BlockArea[] blockAreas = new BlockArea[6];
+
         public Cube(Vector3 size, Vector3 position, GraphicsDevice device)
         {
             Size = size;
             Position = position;
             create(device);
+
+			for (int i = 0; i < 6; i++)
+				blockAreas[i] = new BlockArea(device);
         }
 
-        private void create(GraphicsDevice device)
+		private void create(GraphicsDevice device)
         {
             vertices = new VertexPositionNormalTexture[36];
             Vector3 topLeftFront = Position + new Vector3(-1.0f, 1.0f, -1.0f) * Size;
@@ -113,6 +118,8 @@ namespace Cubrick
 
         public void RenderToDevice(GraphicsDevice device, /*Matrix camera*/ Camera camera)
         {
+			for (int i = 0; i < 6; i++)
+				blockAreas[i].RenderToDevice();
 
             cubeEffect.World = Matrix.CreateRotationX(MathHelper.ToRadians(rotationX)) *
                                Matrix.CreateRotationY(MathHelper.ToRadians(rotationY)) *
