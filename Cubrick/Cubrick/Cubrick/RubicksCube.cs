@@ -20,17 +20,17 @@ namespace Cubrick
             MidTurnAC_1, MidTurnAC_2, MidTurnAC_3
         }
 
-        private struct State
+        public struct RubicksCubeState
         {
-            public MoveState action = MoveState.None;
-            public int amount = 0;
+            public MoveState action;
+            public int amount;
         }
 
         private Cube[, ,] cubes;
         private int size;
         private int cubeCount;
         private GraphicsDevice graphicsDevice;
-        private State state;
+        private RubicksCubeState state;
         private int moveAmount;
 
         public RubicksCube(int size, GraphicsDevice device)
@@ -115,7 +115,7 @@ namespace Cubrick
             get { return cubeCount; }
         }
 
-        public State State
+        public RubicksCubeState State
         {
             get { return state; }
             set { state.action = value.action; state.amount = 0; }
