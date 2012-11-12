@@ -24,11 +24,6 @@ namespace Cubrick
             return cam.matrix;
         }
 
-        public Matrix getMatrix()
-        {
-            return matrix;
-        }
-
         public Camera(Vector3 position)
         {
             Update();

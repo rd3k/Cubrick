@@ -23,7 +23,7 @@ namespace Cubrick
         public struct RubicksCubeState
         {
             public MoveState action;
-            public int amount;
+            public float amount;
         }
 
         private Cube[, ,] cubes;
@@ -31,11 +31,12 @@ namespace Cubrick
         private int cubeCount;
         private GraphicsDevice graphicsDevice;
         private RubicksCubeState state;
-        private int moveAmount;
+
+        private const int rotateRate = 10;
 
         public RubicksCube(int size, GraphicsDevice device)
         {
-			this.size = size;
+            this.size = size;
             this.graphicsDevice = device;
             cubeCount = size * size * size;
             cubes = new Cube[size, size, size];
@@ -47,7 +48,7 @@ namespace Cubrick
                     {
                         cubes[i, j, k] = new Cube(
                             size: new Vector3(0.2f, 0.2f, 0.2f),
-							position: new Vector3(0.201f * i, 0.201f * j, 0.201f * k),
+                            position: new Vector3(0.201f * i, 0.201f * j, 0.201f * k),
                             device: device
                         );
                     }
@@ -60,28 +61,129 @@ namespace Cubrick
 
             if (state.action == MoveState.None) return;
 
+            Vector3 rotationAxis = new Vector3(0, 0, 0);
+            int iAmount = 0, jAmount = 0, kAmount = 0;
+            SByte dir = 1;
+
             switch (state.action)
             {
                 case MoveState.FaceTurnAC_1:
-                    // something == another * state.amount
+                    rotationAxis = new Vector3(0, 1, 0);
+                    iAmount = 0; jAmount = 0; kAmount = 0;
+                    dir = 1;
                     break;
-                case MoveState.FaceTurnAC_2: break;
-                case MoveState.FaceTurnAC_3: break;
-                case MoveState.FaceTurnAC_4: break;
-                case MoveState.FaceTurnAC_5: break;
-                case MoveState.FaceTurnAC_6: break;
-                case MoveState.FaceTurnCW_1: break;
-                case MoveState.FaceTurnCW_2: break;
-                case MoveState.FaceTurnCW_3: break;
-                case MoveState.FaceTurnCW_4: break;
-                case MoveState.FaceTurnCW_5: break;
-                case MoveState.FaceTurnCW_6: break;
-                case MoveState.MidTurnAC_1: break;
-                case MoveState.MidTurnAC_2: break;
-                case MoveState.MidTurnAC_3: break;
-                case MoveState.MidTurnCW_1: break;
-                case MoveState.MidTurnCW_2: break;
-                case MoveState.MidTurnCW_3: break;
+                case MoveState.FaceTurnAC_2:
+                    rotationAxis = new Vector3(0, 0, 1);
+                    iAmount = 0; jAmount = 0; kAmount = 0;
+                    dir = 1;
+                    break;
+                case MoveState.FaceTurnAC_3:
+                    rotationAxis = new Vector3(0, 1, 0);
+                    iAmount = 0; jAmount = 0; kAmount = 0;
+                    dir = -1;
+                    break;
+                case MoveState.FaceTurnAC_4:
+                    rotationAxis = new Vector3(0, 0, 1);
+                    iAmount = 0; jAmount = 0; kAmount = 0;
+                    dir = -1;
+                    break;
+                case MoveState.FaceTurnAC_5:
+                    rotationAxis = new Vector3(1, 0, 0);
+                    iAmount = 0; jAmount = 0; kAmount = 0;
+                    dir = 1;
+                    break;
+                case MoveState.FaceTurnAC_6:
+                    rotationAxis = new Vector3(1, 0, 0);
+                    iAmount = 0; jAmount = 0; kAmount = 0;
+                    dir = -1;
+                    break;
+                case MoveState.FaceTurnCW_1:
+                    rotationAxis = new Vector3(0, 1, 0);
+                    iAmount = 0; jAmount = 0; kAmount = 0;
+                    dir = -1;
+                    break;
+                case MoveState.FaceTurnCW_2:
+                    rotationAxis = new Vector3(0, 0, 1);
+                    iAmount = 0; jAmount = 0; kAmount = 0;
+                    dir = 1;
+                    break;
+                case MoveState.FaceTurnCW_3:
+                    rotationAxis = new Vector3(0, 1, 0);
+                    iAmount = 0; jAmount = 0; kAmount = 0;
+                    dir = 1;
+                    break;
+                case MoveState.FaceTurnCW_4:
+                    rotationAxis = new Vector3(0, 0, 1);
+                    iAmount = 0; jAmount = 0; kAmount = 0;
+                    dir = 1;
+                    break;
+                case MoveState.FaceTurnCW_5:
+                    rotationAxis = new Vector3(1, 0, 0);
+                    iAmount = 0; jAmount = 0; kAmount = 0;
+                    dir = -1;
+                    break;
+                case MoveState.FaceTurnCW_6:
+                    rotationAxis = new Vector3(1, 0, 0);
+                    iAmount = 0; jAmount = 0; kAmount = 0;
+                    dir = 1;
+                    break;
+                case MoveState.MidTurnAC_1:
+                    rotationAxis = new Vector3(0, 1, 0);
+                    iAmount = 0; jAmount = 0; kAmount = 0;
+                    dir = -1;
+                    break;
+                case MoveState.MidTurnAC_2:
+                    rotationAxis = new Vector3(0, 0, 1);
+                    iAmount = 0; jAmount = 0; kAmount = 0;
+                    dir = 1;
+                    break;
+                case MoveState.MidTurnAC_3:
+                    rotationAxis = new Vector3(1, 0, 0);
+                    iAmount = 0; jAmount = 0; kAmount = 0;
+                    dir = -1;
+                    break;
+                case MoveState.MidTurnCW_1:
+                    rotationAxis = new Vector3(0, 1, 0);
+                    iAmount = 0; jAmount = 0; kAmount = 0;
+                    dir = 1;
+                    break;
+                case MoveState.MidTurnCW_2:
+                    rotationAxis = new Vector3(0, 0, 1);
+                    iAmount = 0; jAmount = 0; kAmount = 0;
+                    dir = -1;
+                    break;
+                case MoveState.MidTurnCW_3:
+                    rotationAxis = new Vector3(1, 0, 0);
+                    iAmount = 0; jAmount = 0; kAmount = 0;
+                    dir = 1;
+                    break;
+            }
+
+            for (int i = 0; i < iAmount; i++)
+            {
+                for (int j = 0; j < jAmount; j++)
+                {
+                    for (int k = 0; k < kAmount; k++)
+                    {
+                        GetCube(i, j, k).Position = Vector3.Transform(
+                            value: GetCube(i, j, k).Position,
+                            rotation: Quaternion.CreateFromAxisAngle(
+                                axis: rotationAxis,
+                                angle: MathHelper.ToRadians(dir * 9)
+                            )
+                        );
+                    }
+                }
+            }
+
+            if (state.amount >= 1.0f)
+            {
+                state.action = MoveState.None;
+                state.action = 0.0f;
+            }
+            else
+            {
+                state.amount += 0.1f;
             }
 
         }
@@ -118,7 +220,7 @@ namespace Cubrick
         public RubicksCubeState State
         {
             get { return state; }
-            set { state.action = value.action; state.amount = 0; }
+            set { state.action = value.action; state.amount = 0.0f; }
         }
 
     }

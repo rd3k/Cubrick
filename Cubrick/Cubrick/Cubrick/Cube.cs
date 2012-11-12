@@ -18,7 +18,7 @@ namespace Cubrick
         public float rotationZ { get; set; }
 
         private VertexPositionNormalTexture[] vertices;
-        public Texture2D[] faceTextures = new Texture2D[6];
+        public ColourTexture[] faceTextures = new ColourTexture[6];
         BasicEffect cubeEffect;
 
 		private BlockArea[] blockAreas = new BlockArea[6];
@@ -94,29 +94,18 @@ namespace Cubrick
             vertices[34] = new VertexPositionNormalTexture(topRightFront, normalRight, textureTopLeft);
             vertices[35] = new VertexPositionNormalTexture(bottomRightBack, normalRight, textureBottomRight);
 
-            faceTextures[0] = new Texture2D(device, 1, 1);
-            faceTextures[0].SetData(new[] { Color.Red });
-
-            faceTextures[1] = new Texture2D(device, 1, 1);
-            faceTextures[1].SetData(new[] { Color.Blue });
-
-            faceTextures[2] = new Texture2D(device, 1, 1);
-            faceTextures[2].SetData(new[] { Color.Yellow });
-
-            faceTextures[3] = new Texture2D(device, 1, 1);
-            faceTextures[3].SetData(new[] { Color.Pink });
-
-            faceTextures[4] = new Texture2D(device, 1, 1);
-            faceTextures[4].SetData(new[] { Color.RoyalBlue });
-
-            faceTextures[5] = new Texture2D(device, 1, 1);
-            faceTextures[5].SetData(new[] { Color.Orange });
+            faceTextures[0] = new ColourTexture(device, Color.Red);
+            faceTextures[1] = new ColourTexture(device, Color.Blue);
+            faceTextures[2] = new ColourTexture(device, Color.Yellow);
+            faceTextures[3] = new ColourTexture(device, Color.Pink);
+            faceTextures[4] = new ColourTexture(device, Color.RoyalBlue);
+            faceTextures[5] = new ColourTexture(device, Color.Orange);
 
             cubeEffect = new BasicEffect(device);
 
         }
 
-        public void RenderToDevice(GraphicsDevice device, /*Matrix camera*/ Camera camera)
+        public void RenderToDevice(GraphicsDevice device, Camera camera)
         {
 			for (int i = 0; i < 6; i++)
 				blockAreas[i].RenderToDevice();
