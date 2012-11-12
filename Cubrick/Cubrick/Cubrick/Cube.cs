@@ -125,27 +125,27 @@ namespace Cubrick
             buffer.SetData(vertices);
             device.SetVertexBuffer(buffer);
 
-            cubeEffect.Texture = faceTextures[0];
+            cubeEffect.Texture = faceTextures[0].Randomise();
             cubeEffect.CurrentTechnique.Passes[0].Apply();
             device.DrawPrimitives(PrimitiveType.TriangleList, 0, 6);
 
-            cubeEffect.Texture = faceTextures[1];
+            cubeEffect.Texture = faceTextures[1].Randomise();
             cubeEffect.CurrentTechnique.Passes[0].Apply();
             device.DrawPrimitives(PrimitiveType.TriangleList, 6, 6);
 
-            cubeEffect.Texture = faceTextures[2];
+            cubeEffect.Texture = faceTextures[2].Randomise();
             cubeEffect.CurrentTechnique.Passes[0].Apply();
             device.DrawPrimitives(PrimitiveType.TriangleList, 12, 6);
 
-            cubeEffect.Texture = faceTextures[3];
+            cubeEffect.Texture = faceTextures[3].Randomise();
             cubeEffect.CurrentTechnique.Passes[0].Apply();
             device.DrawPrimitives(PrimitiveType.TriangleList, 18, 6);
 
-            cubeEffect.Texture = faceTextures[4];
+            cubeEffect.Texture = faceTextures[4].Randomise();
             cubeEffect.CurrentTechnique.Passes[0].Apply();
             device.DrawPrimitives(PrimitiveType.TriangleList, 24, 6);
 
-            cubeEffect.Texture = faceTextures[5];
+            cubeEffect.Texture = faceTextures[5].Randomise();
             cubeEffect.CurrentTechnique.Passes[0].Apply();
             device.DrawPrimitives(PrimitiveType.TriangleList, 30, 6);
 
