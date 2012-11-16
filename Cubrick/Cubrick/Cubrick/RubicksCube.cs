@@ -40,7 +40,8 @@ namespace Cubrick
             this.graphicsDevice = device;
             cubeCount = size * size * size;
             cubes = new Cube[size, size, size];
-            for(int i = 0; i < size; i++)
+            this.state.action = MoveState.FaceTurnAC_2;
+            for (int i = 0; i < size; i++)
             {
                 for(int j = 0; j < size; j++)
                 {
@@ -68,13 +69,18 @@ namespace Cubrick
             switch (state.action)
             {
                 case MoveState.FaceTurnAC_1:
-                    rotationAxis = new Vector3(0, 1, 0);
-                    iAmount = 0; jAmount = 0; kAmount = 0;
+                    rotationAxis = new Vector3(1, 0, 0);
+                    iAmount = 1; jAmount = 3; kAmount = 3;
                     dir = 1;
                     break;
+                case MoveState.FaceTurnCW_1:
+                    rotationAxis = new Vector3(1, 0, 0);
+                    iAmount = 1; jAmount = 3; kAmount = 3;
+                    dir = -1;
+                    break;
                 case MoveState.FaceTurnAC_2:
-                    rotationAxis = new Vector3(0, 0, 1);
-                    iAmount = 0; jAmount = 0; kAmount = 0;
+                    rotationAxis = new Vector3(0, 1, 0);
+                    iAmount = 3; jAmount = 1; kAmount = 3;
                     dir = 1;
                     break;
                 case MoveState.FaceTurnAC_3:
@@ -94,11 +100,6 @@ namespace Cubrick
                     break;
                 case MoveState.FaceTurnAC_6:
                     rotationAxis = new Vector3(1, 0, 0);
-                    iAmount = 0; jAmount = 0; kAmount = 0;
-                    dir = -1;
-                    break;
-                case MoveState.FaceTurnCW_1:
-                    rotationAxis = new Vector3(0, 1, 0);
                     iAmount = 0; jAmount = 0; kAmount = 0;
                     dir = -1;
                     break;
@@ -165,13 +166,17 @@ namespace Cubrick
                 {
                     for (int k = 0; k < kAmount; k++)
                     {
-                        GetCube(i, j, k).Position = Vector3.Transform(
+                        //for (int l = 0; l < 6; l++)
+                        //    GetCube(i, j, k).faceTextures[l].Randomise();
+                        //GetCube(i, j, k).Position += new Vector3(0, 0, dir * 0.05f);
+                        /*GetCube(i, j, k).Position = Vector3.Transform(
                             value: GetCube(i, j, k).Position,
                             rotation: Quaternion.CreateFromAxisAngle(
-                                axis: rotationAxis,
+                                axis: rotationAxis * GetCube(1,1,1).Position,
                                 angle: MathHelper.ToRadians(dir * 9)
                             )
                         );
+                        GetCube(i, j, k).rotationX += MathHelper.ToRadians(dir * 9);*/
                     }
                 }
             }
@@ -195,6 +200,7 @@ namespace Cubrick
 
         public void RenderToDevice(Camera camera)
         {
+            Update();
             for (int i = 0; i < size; i++)
             {
                 for (int j = 0; j < size; j++)

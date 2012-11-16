@@ -68,8 +68,9 @@ namespace Cubrick
 
 			cameraAngle = (cameraAngle + 0.01) % MathHelper.TwoPi;
             camera.Position = new Vector3((float)(Math.Cos(cameraAngle) * 8), 2, (float)(Math.Sin(cameraAngle) * 8));
+            //camera.Position = new Vector3(-4, 4, 4);
 			camera.Target = rubicksCube.GetCube(1, 1, 1).Position;
-            camera.Pitch = (float)(Math.Sin(cameraAngle) * .08);
+            //camera.Pitch = (float)(Math.Sin(cameraAngle) * .08);
             camera.Update();
 
             base.Update(gameTime);
